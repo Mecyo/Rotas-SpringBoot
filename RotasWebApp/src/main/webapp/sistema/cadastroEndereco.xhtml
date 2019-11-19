@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="../template/layoutBase.xhtml">
+
+	<ui:define name="content">
+
+		<p:tabView
+			style="width:300px;height:200px;margin:auto;background:#ececec">
+			<p:tab title="Cadastro de Endereço">
+
+				<h:form id="form-cadastro">
+
+					<h:panelGrid id="panelGrid-campos-form" columns="2"
+						cellpadding="10">
+						<p:outputLabel for="inputLatitude" id="lblLatitude"
+							value="Latitude" />
+						<p:inputNumber id="inputLatitude" decimalPlaces="8"
+							style="width:600px" maxlength="70"
+							value="#{cadastrarEnderecoController.endereco.latitude}"
+							required="true"
+							requiredMessage="A latitude é de preenchimento obrigatório" />
+
+						<p:outputLabel for="inputLongitude" id="lblLongitude"
+							value="Longitude" />
+						<p:inputNumber id="inputLongitude" decimalPlaces="8"
+							style="width:600px" maxlength="70"
+							value="#{cadastrarEnderecoController.endereco.longitude}"
+							required="true"
+							requiredMessage="A longitude é de preenchimento obrigatório" />
+
+						<p:commandButton class="btn-voltar" value="Voltar"
+							id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
+							actionListener="#{cadastrarEnderecoController.Voltar}"
+							update="panelGrid-campos-form" />
+
+						<p:commandButton class="btn-salvar" value="Salvar"
+							id="commandButton-salvar" icon="ui-icon-disk"
+							action="#{cadastrarEnderecoController.SalvarNovoEndereco}"
+							update="panelGrid-campos-form" />
+
+					</h:panelGrid>
+
+					<p:messages showDetail="true" autoUpdate="true" closable="true"
+						severity="warn" />
+					<p:messages autoUpdate="true" closable="true" severity="error" />
+					<p:messages showDetail="true" autoUpdate="true" closable="true"
+						severity="info" />
+
+				</h:form>
+
+			</p:tab>
+
+		</p:tabView>
+
+	</ui:define>
+
+</ui:composition>
+</html>

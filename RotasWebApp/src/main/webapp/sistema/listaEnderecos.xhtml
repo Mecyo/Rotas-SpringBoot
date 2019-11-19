@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="../template/layoutBase.xhtml">
+
+	<ui:define name="content">
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="warn" />
+		<p:messages autoUpdate="true" closable="true" severity="error" />
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="info" />
+
+		<p:commandButton value="Novo" id="commandButton-cadastrar"
+			actionListener="#{listarEnderecoController.Cadastrar}" />
+		<br />
+		<br />
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="enderecos" var="end"
+				value="#{listarEnderecoController.enderecos}">
+				<f:facet name="header"> Lista de Endereços </f:facet>
+				<p:column headerText="Id">
+					<h:outputText value="#{end._id}" />
+				</p:column>
+
+				<p:column headerText="Latitude">
+					<h:outputText value="#{end.latitude}" />
+				</p:column>
+
+				<p:column headerText="Longitude">
+					<h:outputText value="#{end.longitude}" />
+				</p:column>
+				<p:column style="width:64px;" headerText="Opções">
+					<p:commandButton style="background:none;"
+						icon="ui-icon-alterarbutton" title="Editar">
+						<f:setPropertyActionListener value="#{end}"
+							target="#{listarEnderecoController.selectedEndereco}" />
+					</p:commandButton>
+					<p:commandButton style="background:none;"
+						actionListener="#{listarEnderecoController.Excluir}"
+						icon="ui-icon-trash" title="Excluir">
+						<f:setPropertyActionListener value="#{end}"
+							target="#{listarEnderecoController.selectedEndereco}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<br />
+		<p:commandButton class="btn-voltar" value="Voltar"
+			id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
+			actionListener="#{listarEnderecoController.Voltar}" />
+
+	</ui:define>
+
+</ui:composition>
+</html>
