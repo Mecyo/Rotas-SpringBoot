@@ -17,7 +17,7 @@
 		<p:messages showDetail="true" autoUpdate="true" closable="true"
 			severity="info" />
 
-		<p:commandButton value="Novo" id="commandButton-cadastrar"
+		<p:commandButton value="Novo" id="commandButton-cadastrar" style="position:initial;"
 			actionListener="#{listarEnderecoController.Cadastrar}" />
 		<br />
 		<br />
@@ -40,6 +40,7 @@
 				</p:column>
 				<p:column style="width:64px;" headerText="Opções">
 					<p:commandButton style="background:none;"
+					action="#{listarEnderecoController.Editar(end)}"
 						icon="ui-icon-alterarbutton" title="Editar">
 						<f:setPropertyActionListener value="#{end}"
 							target="#{listarEnderecoController.selectedEndereco}" />

@@ -13,8 +13,10 @@
 	<ui:define name="content">
 
 		<p:commandButton value="Novo" id="commandButton-cadastrar"
+			style="position:initial;"
 			actionListener="#{listarRotaController.Cadastrar}" />
-<br/><br/>
+		<br />
+		<br />
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
 
@@ -33,8 +35,8 @@
 					<h:outputText value="#{rota.enderecoFinal}" />
 				</p:column>
 				<p:column style="width:64px;" headerText="Opções">
-					<p:commandButton style="background:none;" icon="ui-icon-alterarbutton"
-						title="Editar">
+					<p:commandButton style="background:none;"
+						icon="ui-icon-alterarbutton" title="Editar">
 						<f:setPropertyActionListener value="#{end}"
 							target="#{listarRotaController.selectedRota}" />
 					</p:commandButton>
@@ -46,7 +48,7 @@
 				</p:column>
 			</p:dataTable>
 		</h:form>
-<br/>
+		<br />
 		<p:commandButton class="btn-voltar" value="Voltar"
 			id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
 			actionListener="#{listarRotaController.Voltar}" />

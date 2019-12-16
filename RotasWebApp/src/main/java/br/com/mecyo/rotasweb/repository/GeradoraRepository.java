@@ -3,46 +3,81 @@
  */
 package br.com.mecyo.rotasweb.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
 
 import br.com.mecyo.rotasweb.connection.RotasWebService;
 import br.com.mecyo.rotasweb.entity.Geradora;
+import br.com.mecyo.rotasweb.entity.Geradoras;
+import br.com.mecyo.rotasweb.entity.ObjectId;
 
 /**
  * @author Emerson Santos (Mecyo)
  *
  */
-public class GeradoraRepository {
+public class GeradoraRepository extends RotasWebService<Geradora> implements Serializable {
+    
+   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private RotasWebService managerConnection;
+	private String urlCollection = "geradoras/";
 
-	/*public List<Geradora> getAllGeradoras() {
-		return managerConnection.findAllGeradoras();
+	@Override
+	public Geradora cadastrar(Geradora pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection);
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.post(Entity.entity(pObject, "application/json;charset=UTF-8"));
+
+		return response.readEntity(Geradora.class);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Geradora getGeradoraById(@PathVariable("id") String id) {
-		return repository.findById(id).get();
+	@Override
+	public Geradora editar(Geradora pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.put(Entity.entity(pObject, "application/json;charset=UTF-8"));
+
+		return response.readEntity(Geradora.class);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void modifyGeradoraById(@PathVariable("id") ObjectId id, @Valid @RequestBody Geradora geradora) {
-		geradora.setId(id);
-		repository.save(geradora);
+	@Override
+	public List<Geradora> findAll() {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection);
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.get();
+
+		return response.readEntity(Geradoras.class);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public Geradora createGeradora(@Valid @RequestBody Geradora geradora) {
-		geradora.setId(ObjectId.get());
-		repository.save(geradora);
-		return geradora;
+	@Override
+	public Geradora getById(ObjectId id) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(id));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.get();
+
+		return response.readEntity(Geradora.class);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteGeradora(@PathVariable ObjectId id) {
-		repository.deleteById(id.toString());
-	}*/
+	@Override
+	public void excluir(Geradora pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		invocationBuilder.delete();
+	}
 }

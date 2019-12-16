@@ -11,6 +11,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 import br.com.mecyo.rotasweb.entity.Endereco;
 import br.com.mecyo.rotasweb.repository.EnderecoRepository;
@@ -26,6 +27,7 @@ public class ListarEnderecoController {
 
 	private List<Endereco> enderecos;
 
+	@Inject
 	private Endereco selectedEndereco;
 
 	@Inject
@@ -34,16 +36,20 @@ public class ListarEnderecoController {
 	@PostConstruct
 	public void init() {
 		if (enderecos == null) {
-			enderecos = webService.getAllEnderecos();
+			enderecos = webService.findAll();
 		}
 	}
 
-	public String Editar() {
-		return null;
+	public String Editar(Endereco selectedEndereco) {
+		if(selectedEndereco != null){
+			HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			request.getSession().setAttribute("endereco", selectedEndereco);
+		}
+		return "cadastroEndereco.xhtml";
 	}
 
 	public void Excluir() {
-		webService.excluirEndereco(selectedEndereco);
+		webService.excluir(selectedEndereco);
 	}
 
 	public void Cadastrar() {

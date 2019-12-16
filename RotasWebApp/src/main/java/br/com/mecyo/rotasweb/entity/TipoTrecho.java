@@ -10,7 +10,7 @@ import java.awt.Color;
  *
  */
 public class TipoTrecho {
-	private long id;
+	private ObjectId _id;
 	private String nome;
 	private Color cor;
 	
@@ -18,14 +18,14 @@ public class TipoTrecho {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
-		return id;
+	public ObjectId get_Id() {
+		return _id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(long id) {
-		this.id = id;
+	public void set_Id(ObjectId id) {
+		this._id = id;
 	}
 	/**
 	 * @return the nome

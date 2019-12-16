@@ -11,54 +11,57 @@
 <ui:composition template="../template/layoutBase.xhtml">
 
 	<ui:define name="content">
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="warn" />
+		<p:messages autoUpdate="true" closable="true" severity="error" />
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="info" />
 
-		<p:tabView style="width:300px;height:200px;margin:auto;background:#ececec">
-			<p:tab title="Cadastro de Geradora">
+		<p:commandButton value="Novo" id="commandButton-cadastrar" style="position:initial;"
+			actionListener="#{listarGeradoraController.Cadastrar}" />
+		<br />
+		<br />
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
 
-				<h:form id="form-cadastro">
+			<p:dataTable id="geradoras" var="ger"
+				value="#{listarGeradoraController.geradoras}">
+				<f:facet name="header"> Lista de Geradoras </f:facet>
+				<p:column headerText="Id">
+					<h:outputText value="#{ger._id}" />
+				</p:column>
+				
+				<p:column headerText="Nome">
+					<h:outputText value="#{ger.nome}" />
+				</p:column>
 
-					<h:panelGrid id="panelGrid-campos-form" columns="2"
-						cellpadding="10">
+				<p:column headerText="Latitude">
+					<h:outputText value="#{ger.endereco.latitude}" />
+				</p:column>
 
-						<p:outputLabel for="inputLatitude" id="lblLatitude"
-							value="Latitude" />
-						<p:inputNumber id="inputLatitude" decimalPlaces="8"
-							style="width:600px" maxlength="70"
-							value="#{cadastrarGeradoraController.geradora.latitude}"
-							required="true"
-							requiredMessage="A latitude é de preenchimento obrigatório" />
+				<p:column headerText="Longitude">
+					<h:outputText value="#{ger.endereco.longitude}" />
+				</p:column>
+				<p:column style="width:64px;" headerText="Opções">
+					<p:commandButton style="background:none;"
+						icon="ui-icon-alterarbutton" title="Editar">
+						<f:setPropertyActionListener value="#{end}"
+							target="#{listarGeradoraController.selectedEndereco}" />
+					</p:commandButton>
+					<p:commandButton style="background:none;"
+						actionListener="#{listarGeradoraController.Excluir}"
+						icon="ui-icon-trash" title="Excluir">
+						<f:setPropertyActionListener value="#{end}"
+							target="#{listarGeradoraController.selectedEndereco}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<br />
+		<p:commandButton class="btn-voltar" value="Voltar"
+			id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
+			actionListener="#{listarGeradoraController.Voltar}" />
 
-						<p:outputLabel for="inputLongitude" id="lblLongitude"
-							value="Longitude" />
-						<p:inputNumber id="inputLongitude" decimalPlaces="8"
-							style="width:600px" maxlength="70"
-							value="#{cadastrarEnderecoController.endereco.longitude}"
-							required="true"
-							requiredMessage="A longitude é de preenchimento obrigatório" />
-
-						<p:commandButton class="btn-voltar" value="Voltar"
-							id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
-							actionListener="#{cadastrarEnderecoController.Voltar}"
-							update="panelGrid-campos-form" />
-
-						<p:commandButton class="btn-salvar" value="Salvar"
-							id="commandButton-salvar" icon="ui-icon-disk"
-							actionListener="#{cadastrarEnderecoController.SalvarNovoEndereco}"
-							update="panelGrid-campos-form" />
-
-					</h:panelGrid>
-
-					<p:messages showDetail="true" autoUpdate="true" closable="true"
-						severity="warn" />
-					<p:messages autoUpdate="true" closable="true" severity="error" />
-					<p:messages showDetail="true" autoUpdate="true" closable="true"
-						severity="info" />
-
-				</h:form>
-
-			</p:tab>
-
-		</p:tabView>
 	</ui:define>
 
 </ui:composition>

@@ -41,13 +41,13 @@ public class GeradoraController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public void modifyGeradoraById(@PathVariable("id") ObjectId id, @Valid @RequestBody Geradora geradora) {
-		geradora.setId(id);
+		geradora.set_id(id);
 		repository.save(geradora);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public Geradora createGeradora(@Valid @RequestBody Geradora geradora) {
-		geradora.setId(ObjectId.get());
+		geradora.set_id(ObjectId.get());
 		repository.save(geradora);
 		return geradora;
 	}

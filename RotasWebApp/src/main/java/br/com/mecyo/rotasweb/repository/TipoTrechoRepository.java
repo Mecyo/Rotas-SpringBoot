@@ -5,44 +5,73 @@ package br.com.mecyo.rotasweb.repository;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
 
 import br.com.mecyo.rotasweb.connection.RotasWebService;
+import br.com.mecyo.rotasweb.entity.ObjectId;
 import br.com.mecyo.rotasweb.entity.TipoTrecho;
+import br.com.mecyo.rotasweb.entity.TipoTrechos;
 
 /**
  * @author Emerson Santos (Mecyo)
  *
  */
-public class TipoTrechoRepository {
+public class TipoTrechoRepository extends RotasWebService<TipoTrecho> {
 
-	@Inject
-	private RotasWebService managerConnection;
+	private String urlCollection = "geradoras/";
 
-	/*public List<TipoTrecho> getAllTipoTrechos() {
-		return managerConnection.findAllTipoTrechos();
-	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public TipoTrecho getTipoTrechoById(@PathVariable("id") String id) {
-		return repository.findById(id).get();
-	}
+	@Override
+	public TipoTrecho cadastrar(TipoTrecho pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection);
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void modifyTipoTrechoById(@PathVariable("id") ObjectId id, @Valid @RequestBody TipoTrecho tipoTrecho) {
-		tipoTrecho.setId(id);
-		repository.save(tipoTrecho);
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.post(Entity.entity(pObject, "application/json;charset=UTF-8"));
+
+		return response.readEntity(TipoTrecho.class);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public TipoTrecho createTipoTrecho(@Valid @RequestBody TipoTrecho tipoTrecho) {
-		tipoTrecho.setId(ObjectId.get());
-		repository.save(tipoTrecho);
-		return tipoTrecho;
+	@Override
+	public TipoTrecho editar(TipoTrecho pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_Id()));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.put(Entity.entity(pObject, "application/json;charset=UTF-8"));
+
+		return response.readEntity(TipoTrecho.class);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteTipoTrecho(@PathVariable ObjectId id) {
-		repository.deleteById(id.toString());
-	}*/
+	@Override
+	public List<TipoTrecho> findAll() {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection);
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.get();
+
+		return response.readEntity(TipoTrechos.class);
+	}
+
+	@Override
+	public TipoTrecho getById(ObjectId id) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(id));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.get();
+
+		return response.readEntity(TipoTrecho.class);
+	}
+
+	@Override
+	public void excluir(TipoTrecho pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_Id()));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		invocationBuilder.delete();
+	}
 }

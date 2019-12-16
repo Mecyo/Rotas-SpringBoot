@@ -3,8 +3,19 @@
  */
 package br.com.mecyo.rotasweb.conttroler;
 
-import javax.faces.bean.RequestScoped;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import br.com.mecyo.rotasweb.entity.Geradora;
+import br.com.mecyo.rotasweb.repository.GeradoraRepository;
+import br.com.mecyo.rotasweb.util.Uteis;
 
 /**
  * @author Emerson Santos (Mecyo)
@@ -12,21 +23,62 @@ import javax.inject.Named;
  */
 @Named(value="listarGeradoraController")
 @RequestScoped
-public class ListarGeradoraController {
+public class ListarGeradoraController implements Serializable {
+    
+   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
  
-	public void SalvarNovoGeradora(){
- 
-		/*pessoaModel.setUsuarioModel(this.usuarioController.GetUsuarioSession());
- 
-		//INFORMANDO QUE O CADASTRO FOI VIA INPUT
-		pessoaModel.setOrigemCadastro("I");
- 
-		pessoaRepository.SalvarNovoRegistro(this.pessoaModel);
- 
-		this.pessoaModel = null;
- 
-		Uteis.MensagemInfo("Registro cadastrado com sucesso");*/
- 
+	private List<Geradora> geradoras;
+
+	private Geradora selectedGeradora;
+
+	@Inject
+	private GeradoraRepository webService;
+	
+	@PostConstruct
+	public void init() {
+		if (geradoras == null) {
+			geradoras = webService.findAll();
+		}
 	}
- 
+
+	public String Editar() {
+		return null;
+	}
+
+	public void Excluir() {
+		webService.excluir(selectedGeradora);
+	}
+
+	public void Cadastrar() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("cadastroGeradora.xhtml");
+		} catch (IOException e) {
+			Uteis.MensagemAtencao(e.getMessage());
+		}
+	}
+
+	public void Voltar() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+		} catch (IOException e) {
+			Uteis.MensagemAtencao(e.getMessage());
+		}
+	}
+
+	/**
+	 * @return the geradoras
+	 */
+	public List<Geradora> getGeradoras() {
+		return geradoras;
+	}
+
+	/**
+	 * @param geradoras the geradoras to set
+	 */
+	public void setGeradoras(List<Geradora> geradoras) {
+		this.geradoras = geradoras;
+	}
 }

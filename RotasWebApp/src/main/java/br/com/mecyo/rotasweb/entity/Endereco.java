@@ -28,6 +28,15 @@ public class Endereco {
 		this.longitude = longitude;
 	}
 	
+	/**
+	 * @param latitude
+	 * @param longitude
+	 */
+	public Endereco(Double latitude, Double longitude) {
+		super();
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 	
 	/**
 	 * @return the _id
@@ -39,8 +48,8 @@ public class Endereco {
 	/**
 	 * @param _id the _id to set
 	 */
-	public void set_id(ObjectId _id) {
-		this._id = _id;
+	public void set_id(ObjectId id) {
+		this._id = id;
 	}
 
 	/**

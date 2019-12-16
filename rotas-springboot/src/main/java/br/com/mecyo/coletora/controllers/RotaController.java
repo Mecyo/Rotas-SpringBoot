@@ -41,13 +41,13 @@ public class RotaController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public void modifyRotaById(@PathVariable("id") ObjectId id, @Valid @RequestBody Rota rota) {
-		rota.setId(id);
+		rota.set_id(id);
 		repository.save(rota);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public Rota createPet(@Valid @RequestBody Rota rota) {
-		rota.setId(ObjectId.get());
+		rota.set_id(ObjectId.get());
 		repository.save(rota);
 		return rota;
 	}

@@ -5,7 +5,7 @@
 	id="WebApp_ID" version="3.1">
 
 	<welcome-file-list>
-		<welcome-file>/sistemas/home.xhtml</welcome-file>
+		<welcome-file>sistema/home.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<context-param>

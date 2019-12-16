@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="../template/layoutBase.xhtml">
+
+	<ui:define name="content">
+
+		<p:commandButton value="Novo" id="commandButton-cadastrar"
+			actionListener="#{listarRotaController.Cadastrar}" />
+<br/><br/>
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="rotas" var="rota"
+				value="#{listarRotaController.rotas}">
+				<f:facet name="header"> Lista de Rotas </f:facet>
+				<p:column headerText="Id">
+					<h:outputText value="#{rota.id}" />
+				</p:column>
+
+				<p:column headerText="Endereço Inicial">
+					<h:outputText value="#{rota.enderecoInicial}" />
+				</p:column>
+
+				<p:column headerText="Endereço Final">
+					<h:outputText value="#{rota.enderecoFinal}" />
+				</p:column>
+				<p:column style="width:64px;" headerText="Opções">
+					<p:commandButton style="background:none;" icon="ui-icon-alterarbutton"
+						title="Editar">
+						<f:setPropertyActionListener value="#{end}"
+							target="#{listarRotaController.selectedRota}" />
+					</p:commandButton>
+					<p:commandButton style="background:none;" icon="ui-icon-trash"
+						title="Excluir">
+						<f:setPropertyActionListener value="#{end}"
+							target="#{listarRotaController.selectedRota}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+<br/>
+		<p:commandButton class="btn-voltar" value="Voltar"
+			id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
+			actionListener="#{listarRotaController.Voltar}" />
+
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="warn" />
+		<p:messages autoUpdate="true" closable="true" severity="error" />
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="info" />
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -5,48 +5,73 @@ package br.com.mecyo.rotasweb.repository;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
 
 import br.com.mecyo.rotasweb.connection.RotasWebService;
 import br.com.mecyo.rotasweb.entity.Endereco;
+import br.com.mecyo.rotasweb.entity.Enderecos;
+import br.com.mecyo.rotasweb.entity.ObjectId;
 
 /**
  * @author Emerson Santos (Mecyo)
  *
  */
-public class EnderecoRepository {
+public class EnderecoRepository extends RotasWebService<Endereco> {
 
-	@Inject
-	private RotasWebService managerConnection;
+	private String urlCollection = "enderecos/";
 
-	public List<Endereco> getAllEnderecos() {
-		return managerConnection.findAllEnderecos();
+	@Override
+	public Endereco cadastrar(Endereco pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection);
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.post(Entity.entity(pObject, "application/json;charset=UTF-8"));
+
+		return response.readEntity(Endereco.class);
 	}
 
-	public void excluirEndereco(Endereco selectedEndereco) {
-		managerConnection.excluirEndereco(selectedEndereco);		
+	@Override
+	public Endereco editar(Endereco pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.put(Entity.entity(pObject, "application/json;charset=UTF-8"));
+
+		return response.readEntity(Endereco.class);
 	}
 
-	public Endereco cadastrarEndereco(Endereco endereco) {
-		return managerConnection.cadastrarEndereco(endereco);
+	@Override
+	public List<Endereco> findAll() {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection);
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.get();
+
+		return response.readEntity(Enderecos.class);
 	}
 
-	/*public Endereco getEnderecoById(@PathVariable("id") String id) {
-		return managerConnection.findById(id).get();
+	@Override
+	public Endereco getById(ObjectId id) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(id));
+
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
+
+		Response response = invocationBuilder.get();
+
+		return response.readEntity(Endereco.class);
 	}
 
-	public void modifyEnderecoById(@PathVariable("id") ObjectId id, @Valid @RequestBody Endereco endereco) {
-		endereco.set_id(id);
-		managerConnection.save(endereco);
-	}
+	@Override
+	public void excluir(Endereco pObject) {
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
 
-	public Endereco createEndereco(@Valid @RequestBody Endereco endereco) {
-		endereco.set_id(ObjectId.get());
-		managerConnection.save(endereco);
-		return endereco;
-	}
+		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
 
-	public void deleteEndereco(@PathVariable ObjectId id) {
-		managerConnection.deleteById(id.toString());
-	}*/
+		invocationBuilder.delete();
+	}
 }

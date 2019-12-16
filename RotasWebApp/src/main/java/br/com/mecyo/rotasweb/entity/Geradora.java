@@ -1,11 +1,17 @@
 package br.com.mecyo.rotasweb.entity;
 
+import java.io.Serializable;
+
 /**
  * @author Emerson Santos(Mecyo)
  *
  */
-public class Geradora {
-	private long id;
+public class Geradora  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ObjectId _id;
 	private String nome;
 	private Endereco endereco;
 	
@@ -26,14 +32,14 @@ public class Geradora {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
-		return id;
+	public ObjectId get_id() {
+		return _id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(long id) {
-		this.id = id;
+	public void set_id(ObjectId id) {
+		this._id = id;
 	}
 	/**
 	 * @return the nome

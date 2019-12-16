@@ -20,9 +20,9 @@ public class Uteis {
 	}
 
 	// MOSTRAR MENSAGEM
-	public static void MensagemInfo(String mensagem) {
+	public static void MensagemInfo(String titulo, String mensagem) {
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", mensagem));
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, titulo, mensagem));
 	}
 }
