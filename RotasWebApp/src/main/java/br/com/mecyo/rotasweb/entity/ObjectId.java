@@ -1,6 +1,13 @@
 package br.com.mecyo.rotasweb.entity;
 
-public class ObjectId {
+import java.io.Serializable;
+
+public class ObjectId  implements Serializable {
+    
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3127993227241826549L;
 	protected String timestamp;
 	protected long counter;
 	protected String time;

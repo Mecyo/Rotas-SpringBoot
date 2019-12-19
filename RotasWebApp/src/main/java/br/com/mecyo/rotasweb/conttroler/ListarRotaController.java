@@ -34,7 +34,7 @@ public class ListarRotaController {
 	@PostConstruct
 	public void init() {
 		if (rotas == null) {
-			//rotas = webService.getAllRotas();
+			rotas = webService.findAll();
 		}
 	}
 
@@ -43,7 +43,7 @@ public class ListarRotaController {
 	}
 
 	public void Excluir() {
-		//webService.excluirRota(selectedRota);
+		webService.excluir(selectedRota);
 	}
 
 	public void Cadastrar() {

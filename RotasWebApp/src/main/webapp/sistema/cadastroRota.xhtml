@@ -11,63 +11,34 @@
 
 	<ui:define name="content">
 		<script type="text/javascript"
-			src="https://maps.google.com/maps/api/js?key=AIzaSyCjAdm76c5kse5UN51TZFZoEj1mAqPUQLE"></script>
+			src="https://maps.google.com/maps/api/js?key=AIzaSyAcpX6rj5-tA0wjIMOoUrQv3gud3AYoYH8"></script>
 		<script type="text/javascript">
-			var currentMarker = null;
-			
-			
+			$(window).on('load', function() {
+				$('#dlgCadastroRota').modal('show');
+			});
 
-			function handlePointClick(event) {
-				if (currentMarker === null) {
-					document.getElementById('form-cadastro:inputLatitude').value = event.latLng
-							.lat();
-					document.getElementById('form-cadastro:inputLongitude').value = event.latLng
-							.lng();
+			function addGeradora(latitude, longitude, titulo) {
+				var currentMarker = new google.maps.Marker({
+					position : new google.maps.LatLng(latitude, longitude),
+					title : titulo
+				});
 
-					currentMarker = new google.maps.Marker({
-						position : new google.maps.LatLng(event.latLng.lat(),
-								event.latLng.lng())
-					});
-
-					PF('map').addOverlay(currentMarker);
-
-					PF('dlg').show();
-				}
+				PF('gmap').addOverlay(currentMarker);
 			}
 
-			function markerAddComplete() {
-				var title = document.getElementById('title');
-				currentMarker.setTitle(title.value);
-				title.value = "";
-
-				currentMarker = null;
-				PF('dlg').hide();
+			function geocode() {
+				PF('gmap').geocode(document.getElementById('logradouro').value);
+				closeModal('dlgCadastroRota');
 			}
 
-			function cancel() {
-				PF('dlg').hide();
-				currentMarker.setMap(null);
-				currentMarker = null;
+			function closeModal(modalName) {
+				PF(modalName).hide();
 
 				return false;
 			}
 
-			function reverseGeocode() {
-				var lat = document
-						.getElementById('form-cadastro:inputLatitude').value, lng = document
-						.getElementById('form-cadastro:inputLongitude').value;
-
-				PF('gmap').reverseGeocode(lat, lng);
-			}
-			
-			function closeModal() {
-				PF('dlgCadastroRota').hide();
-
-				return false;
-			}
-			
-			function openModal() {
-				PF('dlgCadastroRota').show();
+			function openModal(modalName) {
+				PF(modalName).show();
 
 				return false;
 			}
@@ -75,86 +46,59 @@
 
 		<p:growl id="messages" showDetail="true" />
 
-		<p:gmap id="gmap" center="#{cadastrarRotaController.centerMap}"
-			zoom="13" type="HYBRID" style="width:100%;height:400px;"
-			onPointClick="handlePointClick(event);"
-			model="#{cadastrarRotaController.emptyModel}" widgetVar="map">
-			<p:ajax event="overlaySelect"
-				listener="#{cadastrarRotaController.onMarkerSelect}"
-				update="messages" />
-			<p:ajax event="reverseGeocode"
-				listener="#{cadastrarRotaController.onReverseGeocode}"
-				update="@this" />
-		</p:gmap>
+		<h:form prependId="false" id="formMap">
+			<p:gmap id="gmap" center="#{cadastrarRotaController.centerMap}"
+				zoom="13" type="HYBRID" style="width:100%;height:400px;"
+				model="#{cadastrarRotaController.mapModel}" widgetVar="gmap">
+				<p:ajax event="overlaySelect"
+					listener="#{cadastrarRotaController.onMarkerSelect}"
+					update="messages" />
+				<p:ajax event="geocode" form="formMap"
+					listener="#{cadastrarRotaController.onGeocode}" update="formMap" />
+			</p:gmap>
+			<p:separator />
 
-		<h:form id="form-cadastro">
-
-			<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
-				<p:outputLabel for="inputLatitude" id="lblLatitude" value="Latitude" />
-				<p:inputNumber id="inputLatitude" decimalPlaces="8"
-					style="width:600px" maxlength="70"
-					value="#{cadastrarRotaController.endereco.latitude}"
-					required="true"
-					requiredMessage="A latitude é de preenchimento obrigatório" />
-
-				<p:outputLabel for="inputLongitude" id="lblLongitude"
-					value="Longitude" />
-				<p:inputNumber id="inputLongitude" decimalPlaces="8"
-					style="width:600px" maxlength="70"
-					value="#{cadastrarRotaController.endereco.longitude}"
-					required="true"
-					requiredMessage="A longitude é de preenchimento obrigatório" />
-
+			<p:panel columns="2">
 				<p:commandButton class="btn-voltar" value="Voltar"
 					id="commandButton-voltar" icon="ui-icon-arrowthick-1-w"
-					actionListener="#{cadastrarRotaController.Voltar}"
-					update="panelGrid-campos-form" />
+					actionListener="#{cadastrarRotaController.voltar}" />
 
 				<p:commandButton class="btn-salvar" value="Salvar"
 					id="commandButton-salvar" icon="ui-icon-disk"
-					onclick="reverseGeocode()" update="panelGrid-campos-form" />
-
-			</h:panelGrid>
-
-			<p:messages showDetail="true" autoUpdate="true" closable="true"
-				severity="warn" />
-			<p:messages autoUpdate="true" closable="true" severity="error" />
-			<p:messages showDetail="true" autoUpdate="true" closable="true"
-				severity="info" />
-
+					action="#{cadastrarRotaController.Salvar}" />
+			</p:panel>
 		</h:form>
 
-		<p:dialog widgetVar="dlg" showEffect="fade" modal="true">
-			<h:form prependId="false">
-				<h:panelGrid columns="2">
-					<h:outputLabel for="title" value="Title:" />
-					<p:inputText id="title" value="#{cadastrarRotaController.title}" />
 
-					<f:facet name="footer">
-						<p:commandButton value="Add"
-							action="#{cadastrarRotaController.addMarker}" update=":messages"
-							oncomplete="markerAddComplete()" />
-						<p:commandButton value="Cancel" onclick="return cancel()" />
-					</f:facet>
-				</h:panelGrid>
-
-			</h:form>
-		</p:dialog>
-		
-		<p:dialog header="Cadastro de Rotas" widgetVar="dlgCadastroRota" modal="true" visible="true">
+		<p:dialog header="Cadastro de Rotas" widgetVar="dlgCadastroRota"
+			id="dlgCadastroRota" modal="true" visible="true">
 			<h:outputText value="Informe o endereço inicial." />
 			<h:form prependId="false">
 				<h:panelGrid columns="2">
 					<h:outputLabel for="logradouro" value="Endereço:" />
-					<p:inputText id="logradouro" value="#{cadastrarRotaController.logradouro}" />
-					
-					<h:outputLabel for="cep" value="CEP:" />
-					<p:inputText id="cep" value="#{cadastrarRotaController.cep}" />
+					<p:inputText id="logradouro"
+						value="#{cadastrarRotaController.logradouro}"
+						style="width:200px !important;" />
 
 					<f:facet name="footer">
-						<p:commandButton value="Iniciar"
-							action="#{cadastrarRotaController.carregarGeradoras}" update="@all" oncomplete=""/>
-						<p:commandButton value="Cancelar" action="#{cadastrarRotaController.voltar}" />
+						<p:commandButton value="Iniciar" onclick="geocode()" />
+						<p:commandButton value="Cancelar"
+							action="#{cadastrarRotaController.voltar}" />
+					</f:facet>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgAddGeradora" id="dlgAddGeradora">
+			<h:outputText value="Inserir a Geradora selecionada na Rota?" />
+			<h:form prependId="false">
+				<h:panelGrid columns="2">
+					<f:facet name="footer">
+						<p:commandButton value="Sim"
+							action="#{cadastrarRotaController.Adicionar}" update="formMap"
+							oncomplete="return closeModal('dlgAddGeradora')" />
+						<p:commandButton value="Não"
+							onclick="return closeModal('dlgAddGeradora')" />
 					</f:facet>
 				</h:panelGrid>
 			</h:form>

@@ -41,13 +41,13 @@ public class TipoTrechoController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public void modifyTipoTrechoById(@PathVariable("id") ObjectId id, @Valid @RequestBody TipoTrecho tipoTrecho) {
-		tipoTrecho.setId(id);
+		tipoTrecho.set_id(id);
 		repository.save(tipoTrecho);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public TipoTrecho createTipoTrecho(@Valid @RequestBody TipoTrecho tipoTrecho) {
-		tipoTrecho.setId(ObjectId.get());
+		tipoTrecho.set_id(ObjectId.get());
 		repository.save(tipoTrecho);
 		return tipoTrecho;
 	}

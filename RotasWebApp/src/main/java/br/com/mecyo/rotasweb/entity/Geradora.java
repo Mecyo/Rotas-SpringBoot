@@ -10,7 +10,7 @@ public class Geradora  implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2448377937595895621L;
 	private ObjectId _id;
 	private String nome;
 	private Endereco endereco;

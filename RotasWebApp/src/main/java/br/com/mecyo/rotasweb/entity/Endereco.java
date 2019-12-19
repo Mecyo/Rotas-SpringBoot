@@ -3,11 +3,17 @@
  */
 package br.com.mecyo.rotasweb.entity;
 
+import java.io.Serializable;
+
 /**
  * @author Emerson Santos (Mecyo)
  *
  */
-public class Endereco {
+public class Endereco implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4879358715387674019L;
 	private ObjectId _id;
 	private Double latitude = 0D;
 	private Double longitude = 0D;

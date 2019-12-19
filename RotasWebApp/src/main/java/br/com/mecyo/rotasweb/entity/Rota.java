@@ -3,13 +3,19 @@
  */
 package br.com.mecyo.rotasweb.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Emerson Santos (Mecyo)
  *
  */
-public class Rota {
+public class Rota implements Serializable {
+    
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8255560650848906725L;
 	private ObjectId _id;
 	private Endereco enderecoInicial;
 	private Endereco enderecoFinal;
@@ -18,30 +24,15 @@ public class Rota {
 	
 	
 	/**
-	 * @param enderecoInicial
-	 * @param enderecoFinal
-	 */
-	public Rota(Endereco enderecoInicial, Endereco enderecoFinal) {
-		super();
-		this.enderecoInicial = enderecoInicial;
-		this.enderecoFinal = enderecoFinal;
-	}
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return this._id.counter;
-	}
-	/**
 	 * @return the _id
 	 */
-	public ObjectId get_Id() {
+	public ObjectId get_id() {
 		return this._id;
 	}
 	/**
 	 * @param _id the _id to set
 	 */
-	public void set_Id(ObjectId id) {
+	public void set_id(ObjectId id) {
 		this._id = id;
 	}
 	/**

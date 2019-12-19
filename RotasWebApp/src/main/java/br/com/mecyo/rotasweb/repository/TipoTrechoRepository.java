@@ -35,7 +35,7 @@ public class TipoTrechoRepository extends RotasWebService<TipoTrecho> {
 
 	@Override
 	public TipoTrecho editar(TipoTrecho pObject) {
-		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_Id()));
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
 
 		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
 
@@ -68,7 +68,7 @@ public class TipoTrechoRepository extends RotasWebService<TipoTrecho> {
 
 	@Override
 	public void excluir(TipoTrecho pObject) {
-		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_Id()));
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
 
 		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
 

@@ -3,6 +3,7 @@
  */
 package br.com.mecyo.rotasweb.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
@@ -18,9 +19,14 @@ import br.com.mecyo.rotasweb.entity.Rotas;
  * @author Emerson Santos (Mecyo)
  *
  */
-public class RotaRepository extends RotasWebService<Rota> {
+public class RotaRepository extends RotasWebService<Rota>  implements Serializable {
+    
+   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	private String urlCollection = "geradoras/";
+	private String urlCollection = "rotas/";
 
 	@Override
 	public Rota cadastrar(Rota pObject) {
@@ -35,7 +41,7 @@ public class RotaRepository extends RotasWebService<Rota> {
 
 	@Override
 	public Rota editar(Rota pObject) {
-		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_Id()));
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
 
 		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
 
@@ -68,7 +74,7 @@ public class RotaRepository extends RotasWebService<Rota> {
 
 	@Override
 	public void excluir(Rota pObject) {
-		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_Id()));
+		this.webTarget = this.client.target(URL_WEBSERVICE).path(urlCollection).path(String.valueOf(pObject.get_id()));
 
 		Invocation.Builder invocationBuilder = this.webTarget.request("application/json;charset=UTF-8");
 

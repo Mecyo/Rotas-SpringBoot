@@ -24,13 +24,13 @@ public class TipoTrecho {
 	/**
 	 * @return the id
 	 */
-	public ObjectId getId() {
+	public ObjectId get_id() {
 		return _id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(ObjectId id) {
+	public void set_id(ObjectId id) {
 		this._id = id;
 	}
 	/**

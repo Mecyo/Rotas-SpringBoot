@@ -24,15 +24,6 @@ public class Rota {
 	
 	
 	/**
-	 * @param enderecoInicial
-	 * @param enderecoFinal
-	 */
-	public Rota(Endereco enderecoInicial, Endereco enderecoFinal) {
-		super();
-		this.enderecoInicial = enderecoInicial;
-		this.enderecoFinal = enderecoFinal;
-	}
-	/**
 	 * @return the id
 	 */
 	public ObjectId get_id() {
